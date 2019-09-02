@@ -1,5 +1,6 @@
 # ZxingDemo
 ZXingDemo
+
 allprojects {
     repositories {
         google()
