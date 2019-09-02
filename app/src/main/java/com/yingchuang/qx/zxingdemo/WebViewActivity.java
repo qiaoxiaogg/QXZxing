@@ -23,10 +23,8 @@ import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.yzq.zxinglibrary.common.Constant;
 import com.yzq.zxinglibrary.decode.BitmapLuminanceSource;
-
-import java.util.EnumSet;
+import com.yzq.zxinglibrary.decode.DecodeFormatManager;
 import java.util.Hashtable;
-import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -42,30 +40,6 @@ public class WebViewActivity extends AppCompatActivity {
     private String url="http://appit.winpow.com/app/weixin/erweima.jsp";
     private String imagePath="";
 
-    public static final Set<BarcodeFormat> PRODUCT_FORMATS;
-    static final Set<BarcodeFormat> INDUSTRIAL_FORMATS;
-    static final Set<BarcodeFormat> ONE_D_FORMATS;
-    static final Set<BarcodeFormat> QR_CODE_FORMATS = EnumSet.of(BarcodeFormat.QR_CODE);
-    static final Set<BarcodeFormat> DATA_MATRIX_FORMATS = EnumSet.of(BarcodeFormat.DATA_MATRIX);
-    static final Set<BarcodeFormat> AZTEC_FORMATS = EnumSet.of(BarcodeFormat.AZTEC);
-    static final Set<BarcodeFormat> PDF417_FORMATS = EnumSet.of(BarcodeFormat.PDF_417);
-
-    static {
-        PRODUCT_FORMATS = EnumSet.of(BarcodeFormat.UPC_A,
-                BarcodeFormat.UPC_E,
-                BarcodeFormat.EAN_13,
-                BarcodeFormat.EAN_8,
-                BarcodeFormat.RSS_14,
-                BarcodeFormat.RSS_EXPANDED);
-        INDUSTRIAL_FORMATS = EnumSet.of(BarcodeFormat.CODE_39,
-                BarcodeFormat.CODE_93,
-                BarcodeFormat.CODE_128,
-                BarcodeFormat.ITF,
-                BarcodeFormat.CODABAR);
-        ONE_D_FORMATS = EnumSet.copyOf(PRODUCT_FORMATS);
-        ONE_D_FORMATS.addAll(INDUSTRIAL_FORMATS);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +47,6 @@ public class WebViewActivity extends AppCompatActivity {
         webView=findViewById(R.id.webView);
 
         initWebView();
-
         webView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -122,9 +95,9 @@ public class WebViewActivity extends AppCompatActivity {
                     decodeFormats = new Vector<BarcodeFormat>();
 
                     // 这里设置可扫描的类型，我这里选择了都支持
-                    decodeFormats.addAll(ONE_D_FORMATS);
-                    decodeFormats.addAll(QR_CODE_FORMATS);
-                    decodeFormats.addAll(DATA_MATRIX_FORMATS);
+                    decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
+                    decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+                    decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
                 }
                 hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
                 // 设置继续的字符编码格式为UTF8
