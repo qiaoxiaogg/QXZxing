@@ -29,6 +29,6 @@ dependencies {
     annotationProcessor 'com.zhy:mpermission-compiler:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.1.1'
     implementation project(':zxinglibrary')
-//    implementation 'com.github.qiaoxiaogg:ZxingDemo:v1.0'
+//    implementation 'com.github.qiaoxiaogg:ZxingDemo:v1.0.2'
 
 }

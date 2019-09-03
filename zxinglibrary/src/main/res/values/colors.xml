@@ -15,5 +15,8 @@
     <color name="scanLineColor">#ffffff</color>
     <color name="defaultColor">#ffffff</color>
 
+    <!--项目主色调-->
+    <color name="baseColor">#ff1745</color>
+
 
 </resources>

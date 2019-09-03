@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.longPress).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //支持webview 长按识别二维码
                 startActivityForResult(new Intent(MainActivity.this,WebViewActivity.class),REQUEST_CODE_SCAN);
             }
         });
@@ -51,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         config.setPlayBeep(true);//是否播放扫描声音 默认为true
         config.setShake(true);//是否震动  默认为true
         config.setDecodeBarCode(true);//是否扫描条形码 默认为true
-        config.setReactColor(R.color.colorAccent);//设置扫描框四个角的颜色 默认为白色
-        config.setFrameLineColor(R.color.colorAccent);//设置扫描框边框颜色 默认无色
-        config.setScanLineColor(R.color.colorAccent);//设置扫描线的颜色 默认白色
+        config.setReactColor(R.color.baseColor);//设置扫描框四个角的颜色 默认为白色
+        config.setFrameLineColor(R.color.baseColor);//设置扫描框边框颜色 默认无色
+        config.setScanLineColor(R.color.baseColor);//设置扫描线的颜色 默认白色
         config.setFullScreenScan(true);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
         config.setShowbottomLayout(false);
         intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
