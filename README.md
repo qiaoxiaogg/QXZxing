@@ -10,5 +10,5 @@ ZXingDemo
   
   
 	dependencies {
-	        implementation 'com.github.qiaoxiaogg:ZxingDemo:v1.0.1'
+	        implementation 'com.github.qiaoxiaogg:ZxingDemo:v1.0.2'
 	}
