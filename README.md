@@ -10,8 +10,8 @@ QXZxing
   
   
 	dependencies {
-	        implementation 'com.github.qiaoxiaogg:ZxingDemo:v1.0.3'
+	        implementation 'com.github.qiaoxiaogg:QXZxing:2.0.1'
 	}  
-	![image](https://github.com/qiaoxiaogg/ZxingDemo/blob/master/images/img.png)  
+	
 	
 	
