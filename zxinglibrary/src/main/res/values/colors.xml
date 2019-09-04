@@ -17,6 +17,12 @@
 
     <!--项目主色调-->
     <color name="baseColor">#ff1745</color>
+    <!--扫码边框-->
+    <color name="scanColor">#2486ff</color>
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
+    <!-- 白色 -->
+    <color name="white">#ffffff</color>
 
 
 </resources>

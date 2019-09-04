@@ -1,5 +1,7 @@
 package com.yzq.zxinglibrary.android;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.FeatureInfo;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,9 @@ import com.yzq.zxinglibrary.decode.DecodeImgCallback;
 import com.yzq.zxinglibrary.decode.DecodeImgThread;
 import com.yzq.zxinglibrary.decode.ImageUtil;
 import com.yzq.zxinglibrary.view.ViewfinderView;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.io.IOException;
 
@@ -59,6 +65,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
     private SurfaceHolder surfaceHolder;
+    private LinearLayout albumLinear;
 
 
     public ViewfinderView getViewfinderView() {
@@ -82,17 +89,23 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+
+    public static void alphaTopBar(int topColor, Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(activity.getResources().getColor(topColor));
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 保持Activity处于唤醒状态
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Color.BLACK);
-        }
-
+        alphaTopBar(R.color.transparent, this);
         /*先获取配置信息*/
         try {
             config = (ZxingConfig) getIntent().getExtras().get(Constant.INTENT_ZXING_CONFIG);
@@ -142,6 +155,8 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
         albumLayout.setOnClickListener(this);
         bottomLayout = findViewById(R.id.bottomLayout);
 
+        albumLinear=findViewById(R.id.albumLinear);
+        albumLinear.setOnClickListener(this);
 
         switchVisibility(bottomLayout, config.isShowbottomLayout());
         switchVisibility(flashLightLayout, config.isShowFlashLight());
@@ -222,7 +237,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     protected void onResume() {
         super.onResume();
 
-        cameraManager = new CameraManager(getApplication(), config);
+        cameraManager = new CameraManager(this, config);
 
         viewfinderView.setCameraManager(cameraManager);
         handler = null;
@@ -276,7 +291,7 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     @Override
     protected void onPause() {
 
-        Log.i("CaptureActivity","onPause");
+        Log.i("CaptureActivity", "onPause");
         if (handler != null) {
             handler.quitSynchronously();
             handler = null;
@@ -322,23 +337,33 @@ public class CaptureActivity extends AppCompatActivity implements SurfaceHolder.
     @Override
     public void onClick(View view) {
 
-        int id = view.getId();
-        if (id == R.id.flashLightLayout) {
-            /*切换闪光灯*/
-            cameraManager.switchFlashLight(handler);
-        } else if (id == R.id.albumLayout) {
-            /*打开相册*/
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            startActivityForResult(intent, Constant.REQUEST_IMAGE);
-        } else if (id == R.id.backIv) {
+        int i = view.getId();
+        if (i == R.id.flashLightLayout) {/*切换闪光灯*/
+//                cameraManager.switchFlashLight(handler);
+
+        } else if (i == R.id.albumLinear) {/*打开相册*/
+            MPermissions.requestPermissions(CaptureActivity.this, 25, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        } else if (i == R.id.backIv) {
             finish();
+
         }
 
 
     }
 
+    @PermissionGrant(25)
+    protected void requestSuccess(){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, Constant.REQUEST_IMAGE);
+
+    }
+    @PermissionDenied(25)
+    protected void requestFailed(){
+        Toast.makeText(this,"未获取到SD卡读取权限",Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

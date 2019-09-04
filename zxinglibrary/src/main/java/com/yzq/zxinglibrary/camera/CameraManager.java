@@ -16,7 +16,9 @@
 
 package com.yzq.zxinglibrary.camera;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.hardware.Camera;
@@ -259,7 +261,7 @@ public final class CameraManager {
 
             /*水平居中，垂直居中*/
             int leftOffset = (screenResolution.x - width) / 2;
-            int topOffset = (screenResolution.y - height)/ 3;
+            int topOffset = (screenResolution.y- height) / 2-getStatusBarHeight((Activity) context);
 
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width,
                     topOffset + height);
@@ -267,7 +269,27 @@ public final class CameraManager {
         }
         return framingRect;
     }
-
+    private static int mStatusBarHeight;
+    public static int getStatusBarHeight(Activity context) {
+        if (mStatusBarHeight <= 0) {
+            Resources resources = context.getResources();
+            int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                try {
+                    mStatusBarHeight = resources.getDimensionPixelSize(resourceId);
+                } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            // 直接获取失败，尝试从显示视图中获取，必须在界面显示之后才能获取到值
+            if (mStatusBarHeight <= 0) {
+                Rect frame = new Rect();
+                context.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+                mStatusBarHeight = frame.top;
+            }
+        }
+        return mStatusBarHeight;
+    }
 
     /**
      * Like {@link #getFramingRect} but coordinates are in terms of the preview

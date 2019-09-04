@@ -36,12 +36,37 @@ public class ZxingConfig implements Serializable {
     private int reactColor = R.color.react;
     /*扫描框颜色*/
     @ColorRes
-    private int frameLineColor = -1;
+    private int frameLineColor =  R.color.react;
 
 
     /*扫描线颜色*/
     @ColorRes
     private int scanLineColor = R.color.scanLineColor;
+
+    /*扫描线用图片代替*/
+    private boolean isShowScanBitmap=false;
+    private int scanBitmap;
+
+    public boolean isShowScanBitmap() {
+        return isShowScanBitmap;
+    }
+
+    public void setShowScanBitmap(boolean showScanBitmap) {
+        isShowScanBitmap = showScanBitmap;
+    }
+
+
+
+    public int getScanBitmap() {
+        return scanBitmap;
+    }
+
+    public void setScanBitmap(int scanBitmap) {
+        this.scanBitmap = scanBitmap;
+        if (scanBitmap>0){
+            isShowScanBitmap=true;
+        }
+    }
 
     public int getFrameLineColor() {
         return frameLineColor;
