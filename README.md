@@ -10,5 +10,8 @@ ZXingDemo
   
   
 	dependencies {
-	        implementation 'com.github.qiaoxiaogg:ZxingDemo:v1.0.2'
-	}
+	        implementation 'com.github.qiaoxiaogg:ZxingDemo:v1.0.3'
+	}  
+	![image](https://github.com/qiaoxiaogg/ZxingDemo/blob/master/images/img.png)  
+	
+	
