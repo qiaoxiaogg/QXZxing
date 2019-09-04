@@ -1,5 +1,5 @@
-# ZxingDemo
-ZXingDemo  
+# QXZxing
+QXZxing
   
 	allprojects {
 		repositories {
