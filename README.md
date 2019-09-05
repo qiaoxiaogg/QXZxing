@@ -12,6 +12,6 @@ QXZxing
 	dependencies {
 	        implementation 'com.github.qiaoxiaogg:QXZxing:2.0.1'
 	}  
-	![add image](https://github.com/qiaoxiaogg/QXZxing/blob/master/images/48667f1647548f046c3112d7503aa21.jpg)
+	![](https://github.com/carmen-zhy/job/raw/master/image/1.png)
 	
 	
