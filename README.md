@@ -12,6 +12,8 @@ QXZxing
 	dependencies {
 	        implementation 'com.github.qiaoxiaogg:QXZxing:2.0.1'
 	}  
-
 	
+	
+
+
 	
