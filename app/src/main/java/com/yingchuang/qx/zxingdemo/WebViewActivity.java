@@ -61,12 +61,12 @@ public class WebViewActivity extends AppCompatActivity {
                             Intent intent = getIntent();
                             intent.putExtra(Constant.CODED_CONTENT, result);
                             setResult(RESULT_OK, intent);
-                            WebViewActivity.this.finish();
+                            finish();
                         }
 
                         @Override
                         public void onAnalyzeFailed() {
-                            Toast.makeText(WebViewActivity.this, "图片解析失败，换个图片试试.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WebViewActivity.this, "图片解析失败，换个图片试试", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
